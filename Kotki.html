@@ -6,11 +6,31 @@
         background-color: LightCyan; 
         color: navy; 
         font-family: 'Arial', sans-serif;
+        text-align: center; /* żeby przycisk był wyśrodkowany */
+    }
+    .button {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: mediumseagreen;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+    .button:hover {
+        background-color: seagreen;
+        transform: scale(1.1);
     }
 </style>
 </head>
 <body>
+
 <h1><center>Ranking kotków</center></h1>
+
 <br><br><br>
 <h3>
 Maxwell - kotek który się kręci do muzyki, ze średnią prędkością, popularny na przełomie lat 10-20 XXI wieku 
@@ -54,6 +74,10 @@ Huh Cat - kotek wydający dźwięk HUUUH otwierając szeroko mordkę
 </iframe>
 </h3>
 
+<!-- Przyciskiem wracamy na stronę główną -->
+<a href="index.html" class="button">Powrót</a>
+
 </body>
 </html>
+
 
