@@ -15,10 +15,11 @@
             margin-bottom: 50px;
         }
         .button {
-            display: inline-block;
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 20px;
+            display: block; /* WAŻNE: zmiana na block, żeby były jeden pod drugim */
+            width: 300px; /* szerokość przycisku */
+            padding: 20px 0; /* więcej góra-dół niż na boki */
+            margin: 20px auto; /* odstępy i wyśrodkowanie */
+            font-size: 24px; /* większa czcionka */
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
@@ -29,16 +30,16 @@
         }
         .button:hover {
             background-color: #45a049;
-            transform: scale(1.1); /* Przy powiększeniu przy najechaniu */
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
 
-    <h1>NAZWA</h1>
+    <h1>STRONA ANTONIEGO</h1>
 
     <a href="Kotki.html" class="button">Śmieszne Kotki</a>
-    <a href="www.google.com" class="button">Google</a>
+    <a href="https://www.google.com" class="button">Google</a>
 
 </body>
 </html>
