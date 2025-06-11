@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Szyfrowanie AES</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+  <h2>Szyfrowanie wiadomości (AES)</h2>
+  <input type="text" id="plainText" placeholder="Wprowadź wiadomość">
+  <input type="text" id="key" placeholder="Hasło klucz">
+  <button onclick="encrypt()">Szyfruj</button>
+  <button onclick="decrypt()">Odszyfruj</button>
+
+  <p><strong>Wynik szyfrowania:</strong> <span id="encrypted"></span></p>
+  <p><strong>Wynik deszyfrowania:</strong> <span id="decrypted"></span></p>
+
+  <script>
+    function encrypt() {
+      var text = document.getElementById("plainText").value;
+      var key = document.getElementById("key").value;
+      var encrypted = CryptoJS.AES.encrypt(text, key).toString();
+      document.getElementById("encrypted").innerText = encrypted;
+    }
+
+    function decrypt() {
+      var encrypted = document.getElementById("encrypted").innerText;
+      var key = document.getElementById("key").value;
+      var decrypted = CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+      document.getElementById("decrypted").innerText = decrypted;
+    }
+  </script>
+</body>
+</html>
