@@ -1,33 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Szyfrowanie AES</title>
+  <title>Szyfrowanie Wiadomości</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+        background-color: LightCyan; 
+        color: navy; 
+        font-family: 'Arial', sans-serif;
+        text-align: left; 
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 16px;
+        border: 1px solid navy;
+        border-radius: 5px;
+    }
+    .button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 15px 30px;
+        font-size: 18px;
+        cursor: pointer;
+        background-color: cyan;
+        color: darkblue;
+        border: solid black;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+    .button:hover {
+        color: black;
+        background-color: blue;
+        transform: scale(1.1);
+    }
+    #result {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: white;
+        border: 1px solid navy;
+        border-radius: 5px;
+        word-break: break-word;
+    }
+  </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
-  <h2>Szyfrowanie wiadomości (AES)</h2>
-  <input type="text" id="plainText" placeholder="Wprowadź wiadomość">
-  <input type="text" id="key" placeholder="Hasło klucz">
-  <button onclick="encrypt()">Szyfruj</button>
-  <button onclick="decrypt()">Odszyfruj</button>
 
+<h1>Szyfrowanie wiadomości (AES)</h1>
+
+<h2>Wpisz wiadomość i klucz</h2>
+
+<input type="text" id="plainText" placeholder="Twoja wiadomość..."><br>
+<input type="text" id="key" placeholder="Hasło-klucz"><br>
+
+<button class="button" onclick="encrypt()">Szyfruj</button>
+<button class="button" onclick="decrypt()">Odszyfruj</button>
+
+<div id="result">
   <p><strong>Wynik szyfrowania:</strong> <span id="encrypted"></span></p>
   <p><strong>Wynik deszyfrowania:</strong> <span id="decrypted"></span></p>
+</div>
 
-  <script>
-    function encrypt() {
-      var text = document.getElementById("plainText").value;
-      var key = document.getElementById("key").value;
-      var encrypted = CryptoJS.AES.encrypt(text, key).toString();
-      document.getElementById("encrypted").innerText = encrypted;
-    }
+<a href="index.html" class="button">Powrót</a>
 
-    function decrypt() {
-      var encrypted = document.getElementById("encrypted").innerText;
-      var key = document.getElementById("key").value;
-      var decrypted = CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
-      document.getElementById("decrypted").innerText = decrypted;
-    }
-  </script>
+<script>
+  function encrypt() {
+    var text = document.getElementById("plainText").value;
+    var key = document.getElementById("key").value;
+    var encrypted = CryptoJS.AES.encrypt(text, key).toString();
+    document.getElementById("encrypted").innerText = encrypted;
+  }
+
+  function decrypt() {
+    var encrypted = document.getElementById("encrypted").innerText;
+    var key = document.getElementById("key").value;
+    var decrypted = CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+    document.getElementById("decrypted").innerText = decrypted;
+  }
+</script>
+
 </body>
 </html>
