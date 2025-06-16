@@ -10,7 +10,16 @@
         font-family: Arial, sans-serif;
         padding: 20px;
     }
-    h1, h2, h3 {
+    h1 {
+        font-size: 28px;
+        text-align: center;
+    }
+    h2 {
+        font-size: 22px;
+        text-align: center;
+    }
+    h3 {
+        font-size: 18px;
         text-align: center;
     }
     input, textarea {
@@ -37,13 +46,15 @@
         color: white;
         transform: scale(1.05);
     }
-    #result {
-        margin-top: 20px;
-        padding: 10px;
-        background-color: white;
-        border: 1px solid navy;
-        border-radius: 5px;
-        word-break: break-word;
+    .result-text {
+        font-size: 16px;
+        color: navy;
+    }
+    hr {
+        border: 0;
+        height: 1px;
+        background-color: navy;
+        margin: 30px 0;
     }
   </style>
 </head>
@@ -51,43 +62,39 @@
 
 <h1>Szyfrowanie i Odszyfrowywanie</h1>
 
-<!-- Sekcja Szyfr Cezara -->
+<hr>
+
 <h2>Szyfr Cezara</h2>
 <textarea id="caesarText" rows="3" placeholder="Wpisz wiadomość do zaszyfrowania..."></textarea><br>
 <input type="number" id="caesarKey" placeholder="Klucz przesunięcia"><br>
 <button class="button" onclick="caesarEncrypt()">Szyfruj Cezarem</button>
 
-<div id="caesarResultBox">
-  <p><strong>Wynik szyfrowania Cezarem:</strong> <span id="caesarResult"></span></p>
-</div>
+<p><strong>Wynik szyfrowania Cezarem:</strong> <span id="caesarResult" class="result-text"></span></p>
 
-<!-- Sekcja Odszyfrowanie Cezara -->
+<hr>
+
 <h3>Odszyfrowanie Cezara</h3>
 <textarea id="caesarDecryptText" rows="3" placeholder="Wklej zaszyfrowaną wiadomość..."></textarea><br>
 <input type="number" id="caesarDecryptKey" placeholder="Klucz przesunięcia"><br>
 <button class="button" onclick="caesarDecrypt()">Odszyfruj Cezara</button>
 
-<div id="caesarDecryptResultBox">
-  <p><strong>Wynik odszyfrowania Cezarem:</strong> <span id="caesarDecryptResult"></span></p>
-</div>
+<p><strong>Wynik odszyfrowania Cezarem:</strong> <span id="caesarDecryptResult" class="result-text"></span></p>
 
-<!-- Sekcja Morse -->
+<hr>
+
 <h2>Kod Morse'a</h2>
 <textarea id="morseText" rows="3" placeholder="Wpisz wiadomość do zamiany na Morse'a..."></textarea><br>
 <button class="button" onclick="toMorse()">Konwertuj na Morse’a</button>
 
-<div id="morseResultBox">
-  <p><strong>Wynik konwersji na Morse'a:</strong> <span id="morseResult"></span></p>
-</div>
+<p><strong>Wynik konwersji na Morse'a:</strong> <span id="morseResult" class="result-text"></span></p>
 
-<!-- Sekcja Odszyfrowanie Morse -->
+<hr>
+
 <h3>Odszyfrowanie Morse'a</h3>
 <textarea id="morseDecryptText" rows="3" placeholder="Wklej kod Morse’a (np. ... --- ...)"></textarea><br>
 <button class="button" onclick="fromMorse()">Odszyfruj Morse’a</button>
 
-<div id="morseDecryptResultBox">
-  <p><strong>Wynik odszyfrowania Morse'a:</strong> <span id="morseDecryptResult"></span></p>
-</div>
+<p><strong>Wynik odszyfrowania Morse'a:</strong> <span id="morseDecryptResult" class="result-text"></span></p>
 
 <script>
   const morseCode = {
