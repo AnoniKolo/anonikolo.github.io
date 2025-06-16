@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Szyfr Cezara + Morse</title>
+  <title>Szyfr Cezara i Morse</title>
   <meta charset="UTF-8">
   <style>
     body {
-        background-color: LightCyan; 
-        color: navy; 
-        font-family: 'Arial', sans-serif;
+        background-color: LightCyan;
+        color: navy;
+        font-family: Arial, sans-serif;
         padding: 20px;
     }
-    h1 {
+    h1, h2 {
         text-align: center;
     }
     input, textarea {
@@ -49,40 +49,49 @@
 </head>
 <body>
 
-<h1>Szyfrowanie (Cezar + Morse)</h1>
+<h1>Szyfrowanie Wiadomości</h1>
 
-<label>Wiadomość:</label><br>
-<textarea id="text" rows="3" placeholder="Wpisz wiadomość..."></textarea><br>
+<!-- Sekcja Cezara -->
+<h2>Szyfr Cezara</h2>
+<textarea id="caesarText" rows="3" placeholder="Wpisz wiadomość do zaszyfrowania..."></textarea><br>
+<input type="number" id="caesarKey" placeholder="Klucz przesunięcia"><br>
+<button class="button" onclick="caesarEncrypt()">Szyfruj Cezarem</button>
 
-<label>Klucz Cezara (liczba):</label><br>
-<input type="number" id="shift" value="3"><br>
+<div id="caesarResultBox">
+  <p><strong>Wynik szyfrowania Cezarem:</strong> <span id="caesarResult"></span></p>
+</div>
 
-<button class="button" onclick="caesarEncrypt()">Szyfr Cezara</button>
-<button class="button" onclick="toMorse()">Na Morse'a</button>
+<!-- Sekcja Morse'a -->
+<h2>Kod Morse'a</h2>
+<textarea id="morseText" rows="3" placeholder="Wpisz wiadomość do zamiany na Morse'a..."></textarea><br>
+<button class="button" onclick="toMorse()">Konwertuj na Morse’a</button>
 
-<div id="result">
-  <p><strong>Szyfr Cezara:</strong> <span id="caesarResult"></span></p>
-  <p><strong>Kod Morse'a:</strong> <span id="morseResult"></span></p>
+<div id="morseResultBox">
+  <p><strong>Wynik konwersji Morse'a:</strong> <span id="morseResult"></span></p>
 </div>
 
 <script>
   function caesarEncrypt() {
-    const text = document.getElementById("text").value.toUpperCase();
-    const shift = parseInt(document.getElementById("shift").value) % 26;
-    let result = "";
+    const text = document.getElementById("caesarText").value.toUpperCase();
+    const shiftInput = document.getElementById("caesarKey").value;
+    const shift = parseInt(shiftInput);
 
+    if (isNaN(shift)) {
+      alert("Podaj poprawny klucz przesunięcia (liczba).");
+      return;
+    }
+
+    let result = "";
     for (let i = 0; i < text.length; i++) {
       const char = text[i];
       if (char >= 'A' && char <= 'Z') {
         let code = ((char.charCodeAt(0) - 65 + shift + 26) % 26) + 65;
         result += String.fromCharCode(code);
       } else {
-        result += char; // zachowuje spacje i znaki
+        result += char;
       }
     }
-
     document.getElementById("caesarResult").innerText = result;
-    document.getElementById("morseResult").innerText = ''; // czyści morse
   }
 
   function toMorse() {
@@ -96,14 +105,19 @@
       "8": "---..", "9": "----.", " ": "/"
     };
 
-    const text = document.getElementById("text").value.toUpperCase();
+    const text = document.getElementById("morseText").value.toUpperCase();
     let morse = "";
+
     for (let i = 0; i < text.length; i++) {
       let char = text[i];
-      morse += morseCode[char] ? morseCode[char] + " " : char;
+      if (morseCode[char]) {
+        morse += morseCode[char] + " ";
+      } else {
+        morse += char + " "; // jeśli nieznany znak, zostaw go
+      }
     }
+
     document.getElementById("morseResult").innerText = morse.trim();
-    document.getElementById("caesarResult").innerText = ''; // czyści Cezara
   }
 </script>
 
