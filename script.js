@@ -7,13 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const messageForm = document.getElementById("message-form");
     const messageInput = document.getElementById("message-input");
 
-    // Funkcja ładowania wiadomości z GitHub
+    // Funkcja do ładowania wiadomości z pliku
     async function loadMessages() {
         try {
             const response = await fetch(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${messagesFilePath}`);
             if (response.ok) {
-                const messages = await response.json();
-                messageList.innerHTML = messages.map(msg => `<div>${msg.text}</div>`).join("");
+                const data = await response.text(); // Pobieramy wiadomości jako tekst
+                const messages = data.split("\n").filter(line => line.trim() !== ""); // Każda linia to wiadomość
+                messageList.innerHTML = messages.map(msg => `<div>${msg}</div>`).join("");
             } else {
                 messageList.innerHTML = "<div>Brak wiadomości.</div>";
             }
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Funkcja wysyłania wiadomości
+    // Funkcja do wysyłania wiadomości
     async function sendMessage(message) {
         const token = prompt("Wprowadź token GitHub (z uprawnieniami do repozytorium)");
         if (!token) return;
@@ -35,16 +36,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            let messages = [];
+            let fileContent = "";
             let sha = null;
 
             if (response.ok) {
                 const data = await response.json();
-                messages = JSON.parse(atob(data.content));
+                fileContent = atob(data.content); // Dekodowanie istniejących wiadomości
                 sha = data.sha;
             }
 
-            messages.push({ text: message, timestamp: new Date().toISOString() });
+            // Dodajemy nową wiadomość jako nową linię
+            const newMessage = `${message} (${new Date().toISOString()})`;
+            const updatedContent = fileContent + newMessage + "\n";
 
             await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${messagesFilePath}`, {
                 method: "PUT",
@@ -54,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: JSON.stringify({
                     message: "Dodano nową wiadomość",
-                    content: btoa(JSON.stringify(messages)),
+                    content: btoa(updatedContent), // Kodowanie treści jako Base64
                     sha: sha
                 })
             });
