@@ -45,8 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 sha = data.sha;
             }
 
-            // Dodajemy nową wiadomość jako nową linię
-            const newMessage = `${message} (${new Date().toISOString()})`;
+            // Dodajemy nową wiadomość jako nową linię z godzina i minutą
+            const now = new Date();
+            const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            const newMessage = `${message} (${time})`;
             const updatedContent = fileContent + newMessage + "\n";
 
             await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${messagesFilePath}`, {
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: JSON.stringify({
                     message: "Dodano nową wiadomość",
-                    content: btoa(updatedContent), // Kodowanie treści jako Base64
+                    content: btoa(updatedContent), // Kodowanie treści w Base64
                     sha: sha
                 })
             });
