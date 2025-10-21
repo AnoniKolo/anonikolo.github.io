@@ -1,1 +1,0 @@
-wyjebać ten plik
