@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Antoniego</title>
     <style>
-        /* Stylizacja całego interfejsu */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -100,42 +99,39 @@
         const messageForm = document.getElementById("message-form");
         const messageInput = document.getElementById("message-input");
 
-        // Zapisane wiadomości (symulacja bazy danych w pliku)
-        let messages = [];
-
-        // Funkcja do rysowania wiadomości w interfejsie
-        function renderMessages() {
-            // Czyszczenie interfejsu i rysowanie wiadomości
-            messagesContainer.innerHTML = messages.map(msg => `
-                <div class="message">
-                    ${msg.text} <span class="timestamp">(${msg.time})</span>
-                </div>
-            `).join("");
+        // Funkcja dodająca wiadomości do sekcji HTML
+        function addMessageToHTML(text, time) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+            messageDiv.innerHTML = `${text} <span class="timestamp">(${time})</span>`;
+            messagesContainer.prepend(messageDiv);
         }
 
-        // Funkcja dodawania nowej wiadomości
-        function addMessage(text) {
-            const now = new Date(); // Pobierz aktualny czas
-            const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`; // Format czasu (HH:MM)
+        // Funkcja obsługująca wysyłanie wiadomości
+        function sendMessage(text) {
+            const now = new Date();
+            const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-            // Dodawanie wiadomości na początek listy
-            messages.unshift({ text, time });
-            renderMessages(); // Renderowanie wiadomości
+            // Dodanie wiadomości do interfejsu
+            addMessageToHTML(text, time);
+
+            // Aktualizacja sekcji wiadomości w pliku HTML
+            const messageHTML = `<div class="message">${text} <span class="timestamp">(${time})</span></div>`;
+            const allMessagesHTML = messageHTML + messagesContainer.innerHTML;
+
+            console.log("Nowa wiadomość zapisana:", text, time);
+
         }
 
         // Obsługa formularza wysyłania wiadomości
         messageForm.addEventListener("submit", (e) => {
-            e.preventDefault(); // Zapobieganie przeładowaniu strony
-            const message = messageInput.value.trim(); // Pobierz i oczyść wiadomość
-
-            if (message) {
-                addMessage(message); // Dodanie wiadomości do listy
+            e.preventDefault();
+            const text = messageInput.value.trim();
+            if (text) {
+                sendMessage(text);
                 messageInput.value = ""; // Wyczyść pole tekstowe
             }
         });
-
-        // Inicjalizacja - renderowanie początkowych wiadomości
-        renderMessages();
     </script>
 </body>
 </html>
