@@ -3,18 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Chat</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Komunikator</title>
+    <style>
+        /* Stylizacja całego interfejsu */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            margin: 0;
+        }
+
+        #message-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+
+        #send-button {
+            padding: 10px 15px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            font-size: 16px;
+        }
+
+        #send-button:hover {
+            background: #0056b3;
+        }
+
+        #messages {
+            width: 100%;
+            display: flex;
+            flex-direction: column-reverse; /* Najnowsze wiadomości na górze */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 5px 0;
+            background: #eaf4ff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timestamp {
+            color: gray;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div id="chat-container">
-        <h1>GitHub Chat</h1>
-        <div id="message-list"></div>
-        <form id="message-form">
-            <input type="text" id="message-input" placeholder="Napisz wiadomość..." required>
-            <button type="submit">Wyślij</button>
-        </form>
+    <h1>Komunikator</h1>
+
+    <!-- Formularz do wysyłania wiadomości -->
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Wpisz wiadomość..." required>
+        <button type="submit" id="send-button">Wyślij</button>
+    </form>
+
+    <!-- Sekcja wiadomości -->
+    <div id="messages">
+        <!-- Wiadomości będą tutaj dynamicznie dodawane -->
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        // Sekcja na wiadomości
+        const messagesContainer = document.getElementById("messages");
+        const messageForm = document.getElementById("message-form");
+        const messageInput = document.getElementById("message-input");
+
+        // Zapisane wiadomości (symulacja bazy danych w pliku)
+        let messages = [];
+
+        // Funkcja do rysowania wiadomości w interfejsie
+        function renderMessages() {
+            // Czyszczenie interfejsu i rysowanie wiadomości
+            messagesContainer.innerHTML = messages.map(msg => `
+                <div class="message">
+                    ${msg.text} <span class="timestamp">(${msg.time})</span>
+                </div>
+            `).join("");
+        }
+
+        // Funkcja dodawania nowej wiadomości
+        function addMessage(text) {
+            const now = new Date(); // Pobierz aktualny czas
+            const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`; // Format czasu (HH:MM)
+
+            // Dodawanie wiadomości na początek listy
+            messages.unshift({ text, time });
+            renderMessages(); // Renderowanie wiadomości
+        }
+
+        // Obsługa formularza wysyłania wiadomości
+        messageForm.addEventListener("submit", (e) => {
+            e.preventDefault(); // Zapobieganie przeładowaniu strony
+            const message = messageInput.value.trim(); // Pobierz i oczyść wiadomość
+
+            if (message) {
+                addMessage(message); // Dodanie wiadomości do listy
+                messageInput.value = ""; // Wyczyść pole tekstowe
+            }
+        });
+
+        // Inicjalizacja - renderowanie początkowych wiadomości
+        renderMessages();
+    </script>
 </body>
 </html>
